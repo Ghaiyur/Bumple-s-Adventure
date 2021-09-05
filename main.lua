@@ -50,6 +50,7 @@ function love.load()
     player.animation = animations.idle
     player.isMoving = false
     player.direction = 1 -- 1 means right and -1 means left
+    player.grounded = true
 
     -- Platform -static
     platform = world:newRectangleCollider(250,400,300,100,{collision_class = 'Platform'})
@@ -71,6 +72,15 @@ function love.update(dt)
     world:update(dt)
 
     if player.body then -- Do this block only if player body exists
+
+        -- Check if on platform and grounded for animation
+        local collidors = world:queryRectangleArea(player:getX() - 20,player:getY() + 50,40,2,{'Platform'})
+        if #collidors > 0  then
+            player.grounded = true
+        else
+            player.grounded = false
+        end
+
         --Every frame set ismoving to false, but if pressed set to true
         player.isMoving = false
 
@@ -95,10 +105,14 @@ function love.update(dt)
     end
 
     -- Change the animation to running when ismoving is true
-    if player.isMoving then
-        player.animation = animations.run
+    if player.grounded then
+        if player.isMoving then
+            player.animation = animations.run
+        else
+            player.animation = animations.idle
+        end
     else
-        player.animation = animations.idle
+        player.animation = animations.jump
     end
 
     -- Update for animations
@@ -129,11 +143,9 @@ end
 -- Jump
 function love.keypressed(key)
     if key == 'w' then
-        local collidors = world:queryRectangleArea(player:getX() - 20,player:getY() + 50,40,2,{'Platform'})
-        if #collidors > 0 then
+        if player.grounded then
             player:applyLinearImpulse(0,-4000)
         end
-        
     end
 end
 
@@ -146,4 +158,5 @@ function love.mousepressed(x,y,button)
         end
     end
 end
-    
+
+--==============================================================================================

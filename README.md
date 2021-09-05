@@ -36,3 +36,5 @@ A 2D platformer
 - [x] Player Direction
     - [x] change x scale factor to negative to flip
     - [x] Multiple the xscale with the 1 or -1 to decide when to flip, 1 is right direction
+- [x] Jump Animation
+    - [x] Check in update if the platform collidors right below player, if its more than 0 , keep the grounded flag as true or else false
