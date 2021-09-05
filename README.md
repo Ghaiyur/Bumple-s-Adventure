@@ -79,3 +79,8 @@ A 2D platformer
     - [x] Created Level 2 
     - [x] Create flag tileset and object layer
     - [x] Created Forwardmoving levels
+- [x] Saving Progress
+    - [x] Created counter of level progress triggered by flag picks 
+    - [x] using show.lua, save it in local cache
+- [x] Music and sounds
+    - [x] added jump and some music

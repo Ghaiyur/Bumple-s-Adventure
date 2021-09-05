@@ -31,6 +31,17 @@ function love.load()
     -- Create Object
     cam = cameraFile()
 
+    -- Sounds
+    sounds = {}
+    sounds.jump = love.audio.newSource('audio/jump.wav','static')
+    sounds.music = love.audio.newSource('audio/rip.mp3','stream')
+    sounds.music:setLooping(true)
+    sounds.music:setVolume(0.5)
+
+    -- Play music from start
+    sounds.music:play()
+
+
     -- Sprites
     sprites = {}
     sprites.playersheet = love.graphics.newImage('sprites/playerSheet.png')
@@ -63,6 +74,9 @@ function love.load()
     -- Import Enemy
     require('enemy')
 
+    -- Get seriliazer
+    require('libraries/show')
+
     -- Enemies
     -- danger = world:newRectangleCollider(0,550,800,50,{collision_class='Danger'})
     -- danger:setType('static')
@@ -70,12 +84,22 @@ function love.load()
     -- Platforms
     platforms = {}
 
+    -- Flag pos
     flagX = 0
     flagY = 0
 
-    levelnum = 1
+    -- Level info
+    saveData = {}
+    saveData.currentlevel = 1
+    saveData.maxlevel = 2
 
-    loadMap('level' .. levelnum)
+    -- Load level
+    if love.filesystem.getInfo('data.lua') then
+        local data = love.filesystem.load('data.lua')
+        data()
+    end
+
+    loadMap(saveData.currentlevel)
 end
 
 --==============================================================================================
@@ -97,8 +121,11 @@ function love.update(dt)
 
         local collidors = world:queryCircleArea(flagX,flagY,10,{'Player'})
         if #collidors > 0 then
-            levelnum = levelnum + 1
-            loadMap('level' .. levelnum)
+            saveData.currentlevel = saveData.currentlevel + 1
+            if saveData.currentlevel > saveData.maxlevel then
+                saveData.currentlevel = 1
+            end
+            loadMap(saveData.currentlevel)
         end
     end
 end
@@ -109,7 +136,7 @@ end
 function love.draw()
     cam:attach()
         gameMap:drawLayer(gameMap.layers['Tile Layer 1'])
-        world:draw()
+        -- world:draw()
         playerDraw()
         enemiesDraw()
     cam:detach()
@@ -126,6 +153,7 @@ function love.keypressed(key)
     if key == 'w' then
         if player.grounded then
             player:applyLinearImpulse(0,-4000)
+            sounds.jump:play()
         end
     end
     if key == 'r' then -- level change on r click 
@@ -178,9 +206,10 @@ end
 
 function loadMap(mapName)
     currentlevel = mapName
+    love.filesystem.write('data.lua',table.show(saveData,'saveData'))
     destroyAll()
     player:setPosition(300,100)
-    gameMap = sti('maps/' .. mapName .. '.lua')
+    gameMap = sti('maps/level' .. mapName .. '.lua')
     -- Create collidor based graphics for platforms
     for i,obj in pairs(gameMap.layers['Platforms'].objects) do
         spawnPlatform(obj.x,obj.y,obj.width,obj.height)  
