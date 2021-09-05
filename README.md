@@ -38,3 +38,5 @@ A 2D platformer
     - [x] Multiple the xscale with the 1 or -1 to decide when to flip, 1 is right direction
 - [x] Jump Animation
     - [x] Check in update if the platform collidors right below player, if its more than 0 , keep the grounded flag as true or else false
+- [x] Multi File Programs
+    - [x] Create a module out of players, needs require
