@@ -2,6 +2,10 @@
 -- Player loads
 --==============================================================================================
 
+-- Player respawn
+playerstartx = 360
+playerstarty = 100
+
 -- This creates a player based collidor and its props
 player = world:newRectangleCollider(360,100,40,100,{collision_class = 'Player'}) -- added the class to the collidor as a table
 player:setFixedRotation(true) -- Switches off box rotation
@@ -45,7 +49,7 @@ function playerUpdate(dt)
 
         --Death of player with Danger
         if player:enter('Danger') then
-            player:destroy()
+            player:setPosition(playerstartx,playerstarty)
         end
     end
 

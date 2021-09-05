@@ -84,3 +84,8 @@ A 2D platformer
     - [x] using show.lua, save it in local cache
 - [x] Music and sounds
     - [x] added jump and some music
+- [] Finishing touches
+    - [x] BG
+    - [] Hud
+    - [] Danger zone
+    - [] Player respawn point , created a object layer in tiled

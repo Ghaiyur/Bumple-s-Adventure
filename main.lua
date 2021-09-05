@@ -19,6 +19,9 @@ function love.load()
     -- Change window size
     love.window.setMode(1000,768)
 
+    -- Font size
+    gameFont = love.graphics.newFont(40)
+
     -- Import Anim8
     anim8 = require 'libraries/anim8/anim8'
 
@@ -34,9 +37,9 @@ function love.load()
     -- Sounds
     sounds = {}
     sounds.jump = love.audio.newSource('audio/jump.wav','static')
-    sounds.music = love.audio.newSource('audio/rip.mp3','stream')
+    sounds.music = love.audio.newSource('audio/music.mp3','stream')
     sounds.music:setLooping(true)
-    sounds.music:setVolume(0.5)
+    sounds.music:setVolume(0.4)
 
     -- Play music from start
     sounds.music:play()
@@ -46,6 +49,7 @@ function love.load()
     sprites = {}
     sprites.playersheet = love.graphics.newImage('sprites/playerSheet.png')
     sprites.enemysheet = love.graphics.newImage('sprites/enemySheet.png')
+    sprites.background = love.graphics.newImage('sprites/background.png')
 
     -- Get grid of the sheet
     local grid = anim8.newGrid(614,564,sprites.playersheet:getWidth(),sprites.playersheet:getHeight())
@@ -78,8 +82,8 @@ function love.load()
     require('libraries/show')
 
     -- Enemies
-    -- danger = world:newRectangleCollider(0,550,800,50,{collision_class='Danger'})
-    -- danger:setType('static')
+    danger = world:newRectangleCollider(-500,800,8000,50,{collision_class='Danger'})
+    danger:setType('static')
 
     -- Platforms
     platforms = {}
@@ -134,13 +138,16 @@ end
 --==============================================================================================
 
 function love.draw()
+    -- Follow BG with cam
+    love.graphics.draw(sprites.background,0,0)
+    love.graphics.setFont(gameFont)
+    love.graphics.printf('Level: ' .. currentlevel,0,250,love.graphics.getWidth(),'center')
     cam:attach()
         gameMap:drawLayer(gameMap.layers['Tile Layer 1'])
         -- world:draw()
         playerDraw()
         enemiesDraw()
     cam:detach()
-
 end
 
 --==============================================================================================
@@ -208,8 +215,14 @@ function loadMap(mapName)
     currentlevel = mapName
     love.filesystem.write('data.lua',table.show(saveData,'saveData'))
     destroyAll()
-    player:setPosition(300,100)
     gameMap = sti('maps/level' .. mapName .. '.lua')
+    -- Create collidor based graphics for Start pos
+    for i,obj in pairs(gameMap.layers['Start'].objects) do
+        playerstartx = obj.x
+        playerstarty = obj.y
+    end
+    -- Set new respawn pos of the level
+    player:setPosition(playerstartx,playerstarty)
     -- Create collidor based graphics for platforms
     for i,obj in pairs(gameMap.layers['Platforms'].objects) do
         spawnPlatform(obj.x,obj.y,obj.width,obj.height)  
