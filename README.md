@@ -60,3 +60,5 @@ A 2D platformer
         spawnPlatform(obj.x,obj.y,obj.width,obj.height)     ```
         - [x] get the objects from the Platforms
         - [x] Create platform collidors on the same places
+- [] Camera
+    - [] [Camera tools](https://github.com/vrld/hump)
