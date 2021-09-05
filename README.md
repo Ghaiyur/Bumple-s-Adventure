@@ -40,3 +40,10 @@ A 2D platformer
     - [x] Check in update if the platform collidors right below player, if its more than 0 , keep the grounded flag as true or else false
 - [x] Multi File Programs
     - [x] Create a module out of players, needs require
+- [x] Tiled
+    - [x] [Map Editor](https://www.mapeditor.org)
+    - [x] Default love2d window 800x600
+        - [x] love.window.setMode
+        - [x] use tiled to create the full level
+- [x] Import as lua, export
+    - [x] [Simpled tiled implementation](https://github.com/karai17/Simple-Tiled-Implementation)

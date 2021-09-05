@@ -16,6 +16,9 @@
 
 function love.load()
 
+    -- cahnge window size
+    love.window.setMode(1000,768)
+
     -- Import Anim8
     anim8 = require 'libraries/anim8/anim8'
 

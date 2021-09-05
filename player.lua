@@ -1,3 +1,7 @@
+--==============================================================================================
+-- Player loads
+--==============================================================================================
+
 -- This creates a player based collidor and its props
 player = world:newRectangleCollider(360,100,40,100,{collision_class = 'Player'}) -- added the class to the collidor as a table
 player:setFixedRotation(true) -- Switches off box rotation
@@ -7,6 +11,8 @@ player.isMoving = false
 player.direction = 1 -- 1 means right and -1 means left
 player.grounded = true
 
+--==============================================================================================
+-- Player Updates
 --==============================================================================================
 
 function playerUpdate(dt)
@@ -60,7 +66,8 @@ function playerUpdate(dt)
 end
 
 --==============================================================================================
-
+-- Player Draw
+--==============================================================================================
 function playerDraw()
      -- Get player positions
      if player.body then
