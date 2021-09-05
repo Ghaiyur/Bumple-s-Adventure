@@ -33,5 +33,6 @@ A 2D platformer
     - [x] Smaller items have lesser mass, thus for linear impulse might be required to be reduced, do not ploay around with grav during those times
 - [x] Changing between Animations
     - [x] Create a flag to see if moving, its always false and even in update but changes when the button is pressed, and when pressed, player.animation = animations.run
-- [] Player Direction
-    - [] 
+- [x] Player Direction
+    - [x] change x scale factor to negative to flip
+    - [x] Multiple the xscale with the 1 or -1 to decide when to flip, 1 is right direction

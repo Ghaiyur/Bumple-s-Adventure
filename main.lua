@@ -49,6 +49,7 @@ function love.load()
     player.speed = 240
     player.animation = animations.idle
     player.isMoving = false
+    player.direction = 1 -- 1 means right and -1 means left
 
     -- Platform -static
     platform = world:newRectangleCollider(250,400,300,100,{collision_class = 'Platform'})
@@ -79,10 +80,12 @@ function love.update(dt)
         if love.keyboard.isDown('d') then
             player:setX(px+player.speed*dt)
             player.isMoving = true
+            player.direction = 1
         end
         if love.keyboard.isDown('a') then
             player:setX(px-player.speed*dt)
             player.isMoving = true
+            player.direction = -1
         end
 
         --Death of player with Danger
@@ -114,7 +117,7 @@ function love.draw()
     if player.body then
         local px,py = player:getPosition()
 
-        player.animation:draw(sprites.playersheet,px,py,nil,0.25,nil,130,300)
+        player.animation:draw(sprites.playersheet,px,py,nil,0.25 * player.direction,0.25,130,300)
     end
 end
 
