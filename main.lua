@@ -70,7 +70,12 @@ function love.load()
     -- Platforms
     platforms = {}
 
-    loadMap()
+    flagX = 0
+    flagY = 0
+
+    levelnum = 1
+
+    loadMap('level' .. levelnum)
 end
 
 --==============================================================================================
@@ -89,6 +94,12 @@ function love.update(dt)
         local px,py = player:getPosition()
         -- use cam to look at player
         cam:lookAt(px,love.graphics.getHeight()/2)
+
+        local collidors = world:queryCircleArea(flagX,flagY,10,{'Player'})
+        if #collidors > 0 then
+            levelnum = levelnum + 1
+            loadMap('level' .. levelnum)
+        end
     end
 end
 --==============================================================================================
@@ -117,6 +128,9 @@ function love.keypressed(key)
             player:applyLinearImpulse(0,-4000)
         end
     end
+    if key == 'r' then -- level change on r click 
+        loadMap('level2')
+    end
 end
 
 -- Query in a circle about the collidors in the range
@@ -138,13 +152,47 @@ function spawnPlatform(x,y,width,height)
     end
 end
 
-function loadMap()
-    gameMap = sti('maps/level1.lua')
+-- Destroy all
+function destroyAll()
+    -- Destory all platforms
+    local i = #platforms
+    while i > -1 do
+        if platforms[i] ~= nil then
+            platforms[i]:destroy()
+        end
+        table.remove(platforms,i)
+        i = i-1
+    end
+
+    -- Destory all enemies
+    local i = #enemies
+    while i > -1 do
+        if enemies[i] ~= nil then
+            enemies[i]:destroy()
+        end
+        table.remove(enemies,i)
+        i = i-1
+    end
+    
+end
+
+function loadMap(mapName)
+    currentlevel = mapName
+    destroyAll()
+    player:setPosition(300,100)
+    gameMap = sti('maps/' .. mapName .. '.lua')
+    -- Create collidor based graphics for platforms
     for i,obj in pairs(gameMap.layers['Platforms'].objects) do
         spawnPlatform(obj.x,obj.y,obj.width,obj.height)  
     end
+    -- Create collidor based graphics for enemies
     for i,obj in pairs(gameMap.layers['Enemies'].objects) do
         spawnEnemies(obj.x,obj.y)
+    end
+    -- Create collidor based graphics for flag
+    for i,obj in pairs(gameMap.layers['Flag'].objects) do
+        flagX = obj.x
+        flagY = obj.y
     end
 
 end

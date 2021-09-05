@@ -75,3 +75,7 @@ A 2D platformer
         - [x] ```for i,obj in pairs(gameMap.layers['Enemies'].objects) do
         spawnEnemies(obj.x,obj.y)
     end``` Similar to tile object, very nice loop that creates sprited colidors 
+- [x] Level Transition
+    - [x] Created Level 2 
+    - [x] Create flag tileset and object layer
+    - [x] Created Forwardmoving levels
