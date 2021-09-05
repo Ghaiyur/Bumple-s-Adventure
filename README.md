@@ -31,3 +31,7 @@ A 2D platformer
     - [x] Attaching the animation to the player collidor
     - [x] Calculate by taking the the individual picture and the finding the best ofset so that the collidor fits the sprites better
     - [x] Smaller items have lesser mass, thus for linear impulse might be required to be reduced, do not ploay around with grav during those times
+- [x] Changing between Animations
+    - [x] Create a flag to see if moving, its always false and even in update but changes when the button is pressed, and when pressed, player.animation = animations.run
+- [] Player Direction
+    - [] 

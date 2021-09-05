@@ -48,6 +48,7 @@ function love.load()
     player:setFixedRotation(true) -- Switches off box rotation
     player.speed = 240
     player.animation = animations.idle
+    player.isMoving = false
 
     -- Platform -static
     platform = world:newRectangleCollider(250,400,300,100,{collision_class = 'Platform'})
@@ -69,21 +70,32 @@ function love.update(dt)
     world:update(dt)
 
     if player.body then -- Do this block only if player body exists
+        --Every frame set ismoving to false, but if pressed set to true
+        player.isMoving = false
 
         -- Creates player pos
         local px,py = player:getPosition()
         -- Player movement
         if love.keyboard.isDown('d') then
             player:setX(px+player.speed*dt)
+            player.isMoving = true
         end
         if love.keyboard.isDown('a') then
             player:setX(px-player.speed*dt)
+            player.isMoving = true
         end
 
         --Death of player with Danger
         if player:enter('Danger') then
             player:destroy()
         end
+    end
+
+    -- Change the animation to running when ismoving is true
+    if player.isMoving then
+        player.animation = animations.run
+    else
+        player.animation = animations.idle
     end
 
     -- Update for animations
@@ -99,10 +111,11 @@ function love.draw()
     world:draw()
 
     -- Get player positions
-    local px,py = player:getPosition()
+    if player.body then
+        local px,py = player:getPosition()
 
-    player.animation:draw(sprites.playersheet,px,py,nil,0.25,nil,130,300)
-    
+        player.animation:draw(sprites.playersheet,px,py,nil,0.25,nil,130,300)
+    end
 end
 
 --==============================================================================================
