@@ -15,6 +15,15 @@ A 2D platformer
     - [x] When player enter a particular collision calss do something example die
 - [x] Querying Collidor
     - [x] Query collidors and then perform a function
-- [] Animations
-    - [] Using sprites sheets
-    - [] [get anim8](https://github.com/kikito/anim8)
+- [x] Animations
+    - [x] Using sprites sheets
+    - [x] [get anim8](https://github.com/kikito/anim8)
+    - [x] Calculate how the grid works
+        - [x] get the sheets dims 9210w * 1692h
+        - [x] it has 15 Colums wide and 3 rows tall
+        - [x] Divide the width and height with the dimensions = size of individual image
+            - [x] 9210/15 = 614 width
+            - [x] 1692/3 = 564 height
+                - [x] put these in the newGrid
+    - [x] Create animations table and put all the states 
+        - [x] Can also define it's speed

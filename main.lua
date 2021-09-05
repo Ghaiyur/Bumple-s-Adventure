@@ -15,6 +15,23 @@
 --==============================================================================================
 
 function love.load()
+
+    -- Import Anim8
+    anim8 = require 'libraries/anim8/anim8'
+
+    -- Sprites
+    sprites = {}
+    sprites.playersheet = love.graphics.newImage('sprites/playerSheet.png')
+
+    -- Get grid of the sheet
+    local grid = anim8.newGrid(614,564,sprites.playersheet:getWidth(),sprites.playersheet:getHeight())
+    
+    -- Animations
+    animations = {}
+    animations.idle = anim8.newAnimation(grid('1-15',1),0.04) -- 1-15 is columns and 1 is the row
+    animations.jump = anim8.newAnimation(grid('1-7',2),0.04)
+    animations.run = anim8.newAnimation(grid('1-15',3),0.04)
+
     -- Import Windfield
     wf = require 'libraries/windfield/windfield' -- Import
     world = wf.newWorld(0,800,false) -- Gravity of the physics, zero gravity , direction of gravity
@@ -30,6 +47,7 @@ function love.load()
     player = world:newRectangleCollider(360,100,80,80,{collision_class = 'Player'}) -- added the class to the collidor as a table
     player:setFixedRotation(true) -- Switches off box rotation
     player.speed = 240
+    player.animation = animations.run
 
     -- Platform -static
     platform = world:newRectangleCollider(250,400,300,100,{collision_class = 'Platform'})
@@ -67,6 +85,9 @@ function love.update(dt)
             player:destroy()
         end
     end
+
+    -- Update for animations
+    player.animation:update(dt)
     
 end
 
@@ -76,6 +97,7 @@ end
 
 function love.draw()
     world:draw()
+    player.animation:draw(sprites.playersheet,0,0)
     
 end
 
