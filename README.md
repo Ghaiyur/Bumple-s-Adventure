@@ -51,4 +51,12 @@ A 2D platformer
     - [x] Import into main
         - [x] First make an extra function called loadMap
         - [x] then update it using gameMap and tell it which time layer to use
-- [] Collidor object from Tiled
+        - [x] In draw gameMap:drawLayer(gameMap.layers['Tile Layer 1'])
+        - [x] in load just call the misc function loadmap
+- [x] Collidor object from Tiled
+    - [x] In tiled first create an object layer for each objects
+    - [x] Create a new misc function and input the collidor maker and make them insert in the platforms group
+    - [x] ```for i,obj in pairs(gameMap.layers['Platforms'].objects) do
+        spawnPlatform(obj.x,obj.y,obj.width,obj.height)     ```
+        - [x] get the objects from the Platforms
+        - [x] Create platform collidors on the same places
