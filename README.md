@@ -2,7 +2,7 @@
 A 2D platformer
 
 ## Dev log
-- [x] Windfiled is easier than love.physics
+- [x] [Windfiled](https://github.com/a327ex/windfield) is easier than love.physics
     - [x] Set up collidors, most of the functions are being called with colon
 - [x] Moving and jumping
     - [x] Set the speed up 
@@ -13,3 +13,8 @@ A 2D platformer
         - [x] In the world put sleep param as false
     - [x] Can set rotation of objects with setFixedRotation
     - [x] When player enter a particular collision calss do something example die
+- [x] Querying Collidor
+    - [x] Query collidors and then perform a function
+- [] Animations
+    - [] Using sprites sheets
+    - [] [get anim8](https://github.com/kikito/anim8)

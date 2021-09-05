@@ -18,7 +18,8 @@ function love.load()
     -- Import Windfield
     wf = require 'libraries/windfield/windfield' -- Import
     world = wf.newWorld(0,800,false) -- Gravity of the physics, zero gravity , direction of gravity
-    
+    world:setQueryDebugDrawing(true)
+
     -- Collision Classes
     world:addCollisionClass('Platform')
     world:addCollisionClass('Player')
@@ -49,7 +50,7 @@ end
 function love.update(dt)
     world:update(dt)
 
-    if player.body then
+    if player.body then -- Do this block only if player body exists
 
         -- Creates player pos
         local px,py = player:getPosition()
@@ -86,7 +87,21 @@ end
 -- Jump
 function love.keypressed(key)
     if key == 'w' then
-        player:applyLinearImpulse(0,-7000)
+        local collidors = world:queryRectangleArea(player:getX() -40,player:getY() + 40,80,2,{'Platform'})
+        if #collidors > 0 then
+            player:applyLinearImpulse(0,-7000)
+        end
+        
     end
-    
 end
+
+-- Query in a circle about the collidors in the range
+function love.mousepressed(x,y,button)
+    if button == 1 then                                    -- Can specify what sort of collidors it can select
+        local collidors = world:queryCircleArea(x,y,150,{'Platform','Danger'}) -- Fills up with all collidors into the table
+        for i,c in ipairs(collidors) do
+            c:destroy()
+        end
+    end
+end
+    
