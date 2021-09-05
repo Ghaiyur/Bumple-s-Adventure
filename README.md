@@ -84,8 +84,11 @@ A 2D platformer
     - [x] using show.lua, save it in local cache
 - [x] Music and sounds
     - [x] added jump and some music
-- [] Finishing touches
+- [x] Finishing touches
     - [x] BG
-    - [] Hud
-    - [] Danger zone
-    - [] Player respawn point , created a object layer in tiled
+    - [x] Hud
+    - [x] Danger zone
+    - [x] Player respawn point , created a object layer in tiled
+- [x] host online
+    - [] [Love.js](https://github.com/TannerRogalsky/love.js/)
+        - [] git submodule update --init
