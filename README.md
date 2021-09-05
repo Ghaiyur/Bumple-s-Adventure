@@ -47,3 +47,8 @@ A 2D platformer
         - [x] use tiled to create the full level
 - [x] Import as lua, export
     - [x] [Simpled tiled implementation](https://github.com/karai17/Simple-Tiled-Implementation)
+    - [x] Import it in
+    - [x] Import into main
+        - [x] First make an extra function called loadMap
+        - [x] then update it using gameMap and tell it which time layer to use
+- [] Collidor object from Tiled

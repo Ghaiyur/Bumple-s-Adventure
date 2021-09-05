@@ -16,11 +16,14 @@
 
 function love.load()
 
-    -- cahnge window size
+    -- Change window size
     love.window.setMode(1000,768)
 
     -- Import Anim8
     anim8 = require 'libraries/anim8/anim8'
+
+    --import STI
+    sti = require 'libraries/Simple-Tiled-Implementation/sti'
 
     -- Sprites
     sprites = {}
@@ -56,6 +59,8 @@ function love.load()
     danger = world:newRectangleCollider(0,550,800,50,{collision_class='Danger'})
     danger:setType('static')
 
+    loadMap()
+
 
 end
 
@@ -66,6 +71,7 @@ end
 
 function love.update(dt)
     world:update(dt)
+    gameMap:update(dt)
     playerUpdate(dt)
 end
 --==============================================================================================
@@ -73,6 +79,7 @@ end
 --==============================================================================================
 
 function love.draw()
+    gameMap:drawLayer(gameMap.layers['Tile Layer 1'])
     world:draw()
     playerDraw()
 
@@ -100,6 +107,10 @@ function love.mousepressed(x,y,button)
             c:destroy()
         end
     end
+end
+
+function loadMap()
+    gameMap = sti('maps/level1.lua')
 end
 
 --==============================================================================================
