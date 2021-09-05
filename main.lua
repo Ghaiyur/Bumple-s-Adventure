@@ -25,18 +25,27 @@ function love.load()
     --import STI
     sti = require 'libraries/Simple-Tiled-Implementation/sti'
 
+    -- Camera tool
+    cameraFile = require 'libraries/hump/camera'
+
+    -- Create Object
+    cam = cameraFile()
+
     -- Sprites
     sprites = {}
     sprites.playersheet = love.graphics.newImage('sprites/playerSheet.png')
+    sprites.enemysheet = love.graphics.newImage('sprites/enemySheet.png')
 
     -- Get grid of the sheet
     local grid = anim8.newGrid(614,564,sprites.playersheet:getWidth(),sprites.playersheet:getHeight())
-    
+    local enemyGrid = anim8.newGrid(100,79,sprites.enemysheet:getWidth(),sprites.enemysheet:getHeight())
+
     -- Animations
     animations = {}
     animations.idle = anim8.newAnimation(grid('1-15',1),0.04) -- 1-15 is columns and 1 is the row
     animations.jump = anim8.newAnimation(grid('1-7',2),0.04)
     animations.run = anim8.newAnimation(grid('1-15',3),0.04)
+    animations.enemy = anim8.newAnimation(enemyGrid('1-2',1),0.02)
 
     -- Import Windfield
     wf = require 'libraries/windfield/windfield' -- Import
@@ -51,6 +60,9 @@ function love.load()
     -- Import Player
     require('player')
 
+    -- Import Enemy
+    require('enemy')
+
     -- Enemies
     -- danger = world:newRectangleCollider(0,550,800,50,{collision_class='Danger'})
     -- danger:setType('static')
@@ -59,8 +71,6 @@ function love.load()
     platforms = {}
 
     loadMap()
-
-
 end
 
 --==============================================================================================
@@ -72,15 +82,26 @@ function love.update(dt)
     world:update(dt)
     gameMap:update(dt)
     playerUpdate(dt)
+    enemiesUpdate(dt)
+
+    if player.body then
+        -- Get player pos
+        local px,py = player:getPosition()
+        -- use cam to look at player
+        cam:lookAt(px,love.graphics.getHeight()/2)
+    end
 end
 --==============================================================================================
 -- DRAW
 --==============================================================================================
 
 function love.draw()
-    gameMap:drawLayer(gameMap.layers['Tile Layer 1'])
-    world:draw()
-    playerDraw()
+    cam:attach()
+        gameMap:drawLayer(gameMap.layers['Tile Layer 1'])
+        world:draw()
+        playerDraw()
+        enemiesDraw()
+    cam:detach()
 
 end
 
@@ -120,7 +141,10 @@ end
 function loadMap()
     gameMap = sti('maps/level1.lua')
     for i,obj in pairs(gameMap.layers['Platforms'].objects) do
-        spawnPlatform(obj.x,obj.y,obj.width,obj.height)     
+        spawnPlatform(obj.x,obj.y,obj.width,obj.height)  
+    end
+    for i,obj in pairs(gameMap.layers['Enemies'].objects) do
+        spawnEnemies(obj.x,obj.y)
     end
 
 end

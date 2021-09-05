@@ -60,5 +60,18 @@ A 2D platformer
         spawnPlatform(obj.x,obj.y,obj.width,obj.height)     ```
         - [x] get the objects from the Platforms
         - [x] Create platform collidors on the same places
-- [] Camera
-    - [] [Camera tools](https://github.com/vrld/hump)
+- [x] Camera
+    - [x] [Camera tools](https://github.com/vrld/hump)
+        - [x] First import it with require
+        - [x] Make a object out of the fuction call 
+        - [x] Update it to look at player pos
+        - [x] make it draw over everything by using attach and detach
+- [x] Platformer Enemies
+    - [x] Sort of similar to player movement but much more automated and just capable of left and right, has query collidors when found none, *-1 into direction
+    - [x] be careful with variable naming as always
+    - [x] Two types of function calls one with dots and one with colons, be careful
+    - [x] sprites direction is handy
+    - [x] enemies can be created as object layer in tiled
+        - [x] ```for i,obj in pairs(gameMap.layers['Enemies'].objects) do
+        spawnEnemies(obj.x,obj.y)
+    end``` Similar to tile object, very nice loop that creates sprited colidors 
