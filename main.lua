@@ -44,10 +44,10 @@ function love.load()
     
 
     -- This creates a player based collidor and its props
-    player = world:newRectangleCollider(360,100,80,80,{collision_class = 'Player'}) -- added the class to the collidor as a table
+    player = world:newRectangleCollider(360,100,40,100,{collision_class = 'Player'}) -- added the class to the collidor as a table
     player:setFixedRotation(true) -- Switches off box rotation
     player.speed = 240
-    player.animation = animations.run
+    player.animation = animations.idle
 
     -- Platform -static
     platform = world:newRectangleCollider(250,400,300,100,{collision_class = 'Platform'})
@@ -97,7 +97,11 @@ end
 
 function love.draw()
     world:draw()
-    player.animation:draw(sprites.playersheet,0,0)
+
+    -- Get player positions
+    local px,py = player:getPosition()
+
+    player.animation:draw(sprites.playersheet,px,py,nil,0.25,nil,130,300)
     
 end
 
@@ -109,9 +113,9 @@ end
 -- Jump
 function love.keypressed(key)
     if key == 'w' then
-        local collidors = world:queryRectangleArea(player:getX() -40,player:getY() + 40,80,2,{'Platform'})
+        local collidors = world:queryRectangleArea(player:getX() - 20,player:getY() + 50,40,2,{'Platform'})
         if #collidors > 0 then
-            player:applyLinearImpulse(0,-7000)
+            player:applyLinearImpulse(0,-4000)
         end
         
     end

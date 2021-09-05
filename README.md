@@ -27,3 +27,7 @@ A 2D platformer
                 - [x] put these in the newGrid
     - [x] Create animations table and put all the states 
         - [x] Can also define it's speed
+- [x] Player Graphics
+    - [x] Attaching the animation to the player collidor
+    - [x] Calculate by taking the the individual picture and the finding the best ofset so that the collidor fits the sprites better
+    - [x] Smaller items have lesser mass, thus for linear impulse might be required to be reduced, do not ploay around with grav during those times
